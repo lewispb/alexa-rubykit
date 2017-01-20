@@ -1,6 +1,6 @@
 module AlexaRubykit
   class IntentRequest < Request
-    attr_accessor :intent, :name, :slots
+    attr_accessor :intent, :name, :slots, :context
 
     # We still don't know if all of the parameters in the request are required.
     # Checking for the presence of intent on an IntentRequest.
@@ -11,6 +11,10 @@ module AlexaRubykit
       @type = 'INTENT_REQUEST'
       @name  = @intent['name']
       @slots = @intent['slots']
+      @context = json_request['context']
+
+      # TODO: We probably need better session handling.
+      @session = AlexaRubykit::Session.new(json_request['session'])
     end
 
     # Takes a Hash object.

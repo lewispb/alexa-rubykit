@@ -15,9 +15,6 @@ module AlexaRubykit
       @version = json_request['version']
       @locale = json_request['request']['locale']
       @json   = json_request
-
-      # TODO: We probably need better session handling.
-      @session = AlexaRubykit::Session.new(json_request['session'])
     end
   end
 
@@ -32,6 +29,8 @@ module AlexaRubykit
         @request = IntentRequest.new(json_request)
       when /SessionEnded/
         @request = SessionEndedRequest.new(json_request)
+      when /AudioPlayer/
+        @request = AudioPlayerRequest.new(json_request)
       else
         raise ArgumentError, 'Invalid Request Type.'
     end
